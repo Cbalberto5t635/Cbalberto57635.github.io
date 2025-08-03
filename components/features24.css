@@ -11,9 +11,24 @@
 }
  
 .features24-image-container {
-  height: 100%;
-  display: flex;
   position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.features24-fade-img {
+  position: absolute;
+  max-width: 100%;
+  height: auto;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
  
 .features24-image1 {

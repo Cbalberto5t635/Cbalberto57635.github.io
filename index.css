@@ -946,9 +946,24 @@
 }
  
 .features24-image-container {
-  height: 100%;
-  display: flex;
   position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.features24-fade-img {
+  position: absolute;
+  max-width: 100%;
+  height: auto;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
  
 .features24-image1 {
@@ -1645,7 +1660,7 @@
 .home-container {
   width: 100%;
   display: flex;
-  min-height: 100vh;
+  min-height: auto;
   align-items: center;
   flex-direction: column;
 }
@@ -1974,4 +1989,66 @@
  
 .home-text49 {
   display: inline-block;
+}
+
+.song-title {
+  position: fixed;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ef174b;
+  color: white;
+  font-family: "Comic Sans MS", cursive;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: all 0.5s ease;
+  z-index: 9999;
+}
+
+.slide-down {
+  top: 20px;
+}
+
+.slide-up {
+  top: -50px;
+}
+
+.hidden {
+  display: none;
+}
+
+button.hero17-button1,
+button.navbar8-action11 {
+  background-color: #f8b7d8 !important; /* rosa pastel */
+  color: white !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-weight: bold !important;
+  box-shadow: 0 4px 10px rgba(248, 183, 216, 0.5) !important;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.hero17-button1:hover,
+button.navbar8-action11:hover {
+  background-color: #f48acb !important; /* rosa un poco más fuerte */
+  box-shadow: 0 6px 14px rgba(244, 138, 203, 0.6) !important;
+}
+
+button.hero17-button2,
+button.navbar8-action21 {
+  background: none !important;
+  border: none !important;
+  color: white !important;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s ease, text-shadow 0.3s ease;
+}
+
+button.hero17-button2:hover,
+button.navbar8-action21 {
+  color: #fffcfc;
+  text-shadow: 0 0 8px #ffffff;
 }

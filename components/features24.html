@@ -59,24 +59,23 @@
       <div class="features24-container1 thq-section-padding features24">
         <div class="features24-container2 thq-section-max-width">
           <div class="features24-image-container">
-            <img
-              alt="Pink bow illustration"
-              src="https://images.unsplash.com/photo-1518563795073-6b72265ad862?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTc1MDYxODM3MHw&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080"
-              class="features24-image1 thq-img-ratio-16-9"
-            />
-            <img
-              alt="Pink heart illustration"
-              src="https://images.unsplash.com/photo-1473646590311-c48e1bc77b44?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTc1MDYxODM2OXw&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080"
-              class="features24-image2 thq-img-ratio-16-9"
-            />
-            <img
-              alt="Music notes illustration"
-              src="https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTc1MDYxODM2OXw&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080"
-              class="features24-image3 thq-img-ratio-16-9"
-            />
-          </div>
+             <img
+				id="main-image-current"
+				src="./imagen1.jpg"
+				class="features24-fade-img thq-img-ratio-16-9"
+				alt="Imagen actual"
+			  />
+			  <img
+				id="main-image-next"
+				src=""
+				class="features24-fade-img thq-img-ratio-16-9 hidden"
+				alt="Imagen nueva"
+			   />
+			  
+			  </div>
+		  
           <div class="features24-tabs-menu">
-            <div class="features24-tab-horizontal1">
+            <div class="features24-tab-horizontal1" data-img="1">
               <div class="features24-divider-container1">
                 <div class="features24-container3"></div>
               </div>
@@ -97,7 +96,7 @@
                 </span>
               </div>
             </div>
-            <div class="features24-tab-horizontal2">
+            <div class="features24-tab-horizontal2" data-img="2">
               <div class="features24-divider-container2">
                 <div class="features24-container4"></div>
               </div>
@@ -116,7 +115,7 @@
                 </span>
               </div>
             </div>
-            <div class="features24-tab-horizontal3">
+            <div class="features24-tab-horizontal3" data-img="3">
               <div class="features24-divider-container3">
                 <div class="features24-container5"></div>
               </div>
@@ -143,5 +142,43 @@
       defer=""
       src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
     ></script>
+	
+	<script>
+  const tabs = document.querySelectorAll('[class^="features24-tab-horizontal"]')
+  const currentImage = document.getElementById('main-image-current')
+  const nextImage = document.getElementById('main-image-next')
+
+  const imageSources = {
+    1: "./imagen1.jpg",
+    2: "./imagen2.jpg",
+    3: "./imagen3.jpg"
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const index = tab.getAttribute('data-img')
+      const newSrc = imageSources[index]
+
+      if (!newSrc || currentImage.src.includes(newSrc)) return
+
+      // Prepara la siguiente imagen
+      nextImage.src = newSrc
+      nextImage.classList.remove('hidden')
+
+      // Fade out la actual
+      currentImage.style.opacity = 0
+      nextImage.style.opacity = 1
+
+      // Al completar, intercambia las imágenes
+      setTimeout(() => {
+        currentImage.src = newSrc
+        currentImage.style.opacity = 1
+        nextImage.classList.add('hidden')
+        nextImage.style.opacity = 0
+      }, 500) // Debe coincidir con el tiempo de transición
+    })
+  })
+</script>
+	
   </body>
 </html>
