@@ -539,12 +539,13 @@
                     </div>
                     <div class="cta26-actions">
                       <button
+						id="open-version-log"
                         type="button"
                         class="thq-button-filled cta26-button"
                       >
                         <span>
                           <fragment class="home-fragment34">
-                            <span class="home-text34">Download Now</span>
+                            <span class="home-text34">Historial de versiones</span>
                           </fragment>
                         </span>
                       </button>
@@ -573,7 +574,7 @@
                   <div class="steps2-actions"></div>
                 </div>
                 <div class="steps2-container3">
-                  <div class="steps2-container4 thq-card">
+                  <div class="steps2-container4 thq-card" data-id="1">
                     <h2 class="thq-heading-2">
                       <fragment class="home-fragment37">
                         <span class="home-text37">
@@ -591,7 +592,7 @@
                     </span>
                     <label class="steps2-text14 thq-heading-3">01</label>
                   </div>
-                  <div class="steps2-container5 thq-card">
+                  <div class="steps2-container5 thq-card" data-id="2">
                     <h2 class="thq-heading-2">
                       <fragment class="home-fragment38">
                         <span class="home-text38">
@@ -609,7 +610,7 @@
                     </span>
                     <label class="steps2-text17 thq-heading-3">02</label>
                   </div>
-                  <div class="steps2-container6 thq-card">
+                  <div class="steps2-container6 thq-card" data-id="3">
                     <h2 class="thq-heading-2">
                       <fragment class="home-fragment39">
                         <span class="home-text39">
@@ -626,7 +627,7 @@
                     </span>
                     <label class="steps2-text20 thq-heading-3">03</label>
                   </div>
-                  <div class="steps2-container7 thq-card">
+                  <div class="steps2-container7 thq-card" data-id="4">
                     <h2 class="thq-heading-2">
                       <fragment class="home-fragment40">
                         <span class="home-text40">
@@ -648,6 +649,14 @@
               </div>
             </div>
           </div>
+		  
+		  
+		<div id="expanded-postit" class="expanded hidden">
+			<div id="expanded-clone" class="expanded-clone">
+			<div id="expanded-content"></div>
+			</div>
+		</div>
+		  
         </steps2-wrapper>
         <footer4-wrapper
           class="footer4-wrapper"
@@ -778,7 +787,10 @@
   const musicList = [
     { name: "Pillow Down 🌸 - by cbalberto", src: "Musica/Pillow_Down.mp3" },
     { name: "Heartz 💗⚡️ - by cbalberto", src: "Musica/Heartz.mp3" },
-    { name: "Aun en mantenimiento...", src: "musica3.mp3" }
+    { name: "Vi-Lofi 🎧☕🎶 - by cbalberto", src: "Musica/Vi-Lofi.mp3" },
+	{ name: "Tiempos no modernos V2 ⋆༺𓆩⚔𓆪༻⋆ - by cbalberto", src: "Musica/Tiempos no modernos V2.mp3" },
+	{ name: "Arco Medieval 🏹🏰 - by cbalberto", src: "Musica/Arco Medieval.mp3"},
+	{ name: "Tiempos no modernos ⌚ - by cbalberto", src: "Musica/Tiempos no modernos.mp3"}
   ];
 
   let currentSongIndex = 0;
@@ -851,6 +863,165 @@
   });
 </script>
 
+<script>
+  const postits = document.querySelectorAll('.steps2-container4, .steps2-container5, .steps2-container6, .steps2-container7');
+  const expanded = document.getElementById('expanded-postit');
+  const clone = document.getElementById('expanded-clone');
+
+  const postitData = {
+    1: "<h2>Actualización del Espacio Rosado</h2><p>Texto del mini blog aquí uwu</p>",
+    2: "<h2>Actualización de la Música</h2><p>Siempre suena bonito tu voz cuando dices 'te amo'.</p>",
+    3: "<h2>Contador Misterioso</h2><p>Ya hace algo. O no.</p>",
+    4: "<h2>Melodías Nuevas</h2><p>Se añadieron rolitas bien sad.</p>"
+  };
+
+  let currentPostit = null;
+
+  function fadeInSolidColor(baseRGB) {
+    let opacity = 0.6;
+    const interval = setInterval(() => {
+      opacity += 0.05;
+      if (opacity >= 1.0) {
+        opacity = 1.0;
+        clearInterval(interval);
+      }
+      clone.style.backgroundColor = `rgba(${baseRGB}, ${opacity})`;
+    }, 30);
+  }
+
+  function getRGBFromComputedStyle(element) {
+    const computedColor = window.getComputedStyle(element).backgroundColor;
+    const rgbaMatch = computedColor.match(/rgba?\((\d+), (\d+), (\d+)/);
+    if (rgbaMatch) {
+      return `${rgbaMatch[1]}, ${rgbaMatch[2]}, ${rgbaMatch[3]}`;
+    }
+    return "255, 255, 255"; // fallback
+  }
+
+  function closeExpanded() {
+  if (!currentPostit) return;
+
+  const rect = currentPostit.getBoundingClientRect();
+  const baseRGB = getRGBFromComputedStyle(currentPostit);
+  let opacity = 1.0;
+
+  // Animar opacidad de regreso
+  const fadeOut = setInterval(() => {
+    opacity -= 0.05;
+    if (opacity <= 0.6) {
+      opacity = 0.6;
+      clearInterval(fadeOut);
+
+      // Después de que se desvanece el color, contraemos
+      expanded.classList.remove('expanding');
+      clone.style.top = rect.top + "px";
+      clone.style.left = rect.left + "px";
+      clone.style.width = rect.width + "px";
+      clone.style.height = rect.height + "px";
+
+      setTimeout(() => {
+        expanded.classList.add('hidden');
+        clone.innerHTML = "";
+      }, 500);
+    }
+    clone.style.backgroundColor = `rgba(${baseRGB}, ${opacity})`;
+  }, 30);
+}
+
+  postits.forEach(p => {
+    p.addEventListener('click', () => {
+      const id = p.dataset.id;
+      currentPostit = p;
+
+      const rect = p.getBoundingClientRect();
+      const baseRGB = getRGBFromComputedStyle(p);
+
+      clone.style.position = "fixed";
+      clone.style.top = rect.top + "px";
+      clone.style.left = rect.left + "px";
+      clone.style.width = rect.width + "px";
+      clone.style.height = rect.height + "px";
+      clone.style.margin = "0";
+      clone.style.borderRadius = "8px";
+      clone.innerHTML = `<div id="expanded-content">${postitData[id]}</div>`;
+      clone.style.backgroundColor = `rgba(${baseRGB}, 0.6)`;
+
+      expanded.classList.remove('hidden');
+
+      requestAnimationFrame(() => {
+        expanded.classList.add('expanding');
+        clone.style.top = "5%";
+        clone.style.left = "5%";
+        clone.style.width = "90%";
+        clone.style.height = "90%";
+        fadeInSolidColor(baseRGB);
+      });
+    });
+  });
+
+  // ESC para cerrar
+  document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape") {
+      closeExpanded();
+    }
+  });
+
+  // clic fuera del clon
+  expanded.addEventListener('click', (e) => {
+    if (!clone.contains(e.target)) {
+      closeExpanded();
+    }
+  });
+</script>
+
+<div id="expanded-version-log" class="expanded hidden">
+  <div class="expanded-clone">
+    <button class="close-btn" id="close-version-log">Cerrar ✖</button>
+    <h2>Historial de versiones</h2>
+    <ul style="padding-left: 0; list-style: none;">
+      <li style="margin-bottom: 16px;">
+        <strong>v1.0</strong> - 04/08/2025
+        <button class="thq-button-filled" onclick="window.open('ruta/descarga1.zip')">Descargar</button>
+      </li>
+      <li style="margin-bottom: 16px;">
+        <strong>v0.9</strong> - 20/07/2025
+        <button class="thq-button-filled" onclick="window.open('ruta/descarga0.9.zip')">Descargar</button>
+      </li>
+      <!-- Puedes agregar más versiones aquí -->
+    </ul>
+  </div>
+</div>
+
+<script>
+  const openLogBtn = document.getElementById('open-version-log');
+  const versionLog = document.getElementById('expanded-version-log');
+  const closeLogBtn = document.getElementById('close-version-log');
+  const cloneLog = versionLog.querySelector('.expanded-clone');
+
+  openLogBtn.addEventListener('click', () => {
+    cloneLog.classList.remove('expanding');
+    versionLog.classList.remove('hidden');
+    setTimeout(() => {
+      cloneLog.classList.add('expanding');
+    }, 10); // delay para que la animación se aplique
+  });
+
+  const closeLog = () => {
+    cloneLog.classList.remove('expanding');
+    setTimeout(() => {
+      versionLog.classList.add('hidden');
+    }, 400);
+  };
+
+  closeLogBtn.addEventListener('click', closeLog);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLog();
+  });
+
+  versionLog.addEventListener('click', (e) => {
+    if (e.target === versionLog) closeLog();
+  });
+</script>
 
   </body>
 </html>
